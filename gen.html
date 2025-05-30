@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Генератор лотерейных билетов</title>
+
+    <script type="text/javascript">
+        function generateLotteryTickets() {
+          var minValue = parseInt(document.getElementById("minValue").value);
+          var maxValue = parseInt(document.getElementById("maxValue").value);
+          var countValue = parseInt(document.getElementById("countValue").value);
+          var ticketsCount = parseInt(document.getElementById("ticketsCount").value);
+          var extraMinValue = parseInt(document.getElementById("extraMinValue").value);
+          var extraMaxValue = parseInt(document.getElementById("extraMaxValue").value);
+    
+          var ticketsContainer = document.getElementById("ticketsContainer");
+          ticketsContainer.innerHTML = '';
+    
+          for (var i = 0; i < ticketsCount; i++) {
+            var numbers = [];
+    
+            while (numbers.length < countValue && numbers.length < (maxValue - minValue + 1)) {
+              var randomNumber = Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+              if (numbers.indexOf(randomNumber) === -1) {
+                numbers.push(randomNumber);
+              }
+            }
+    
+            numbers.sort(function(a, b) {
+              return a - b;
+            });
+    
+            var extraNumber = Math.floor(Math.random() * (extraMaxValue - extraMinValue + 1)) + extraMinValue;
+    
+            var ticketContainer = document.createElement('div');
+            ticketContainer.classList.add('ticket');
+    
+            for (var j = 0; j < countValue; j++) {
+              var numberSpan = document.createElement('span');
+              numberSpan.classList.add('number');
+              numberSpan.innerHTML = numbers[j];
+              ticketContainer.appendChild(numberSpan);
+            }
+    
+            var extraNumberSpan = document.createElement('span');
+            extraNumberSpan.classList.add('extra-number');
+            extraNumberSpan.innerHTML = extraNumber;
+            ticketContainer.appendChild(extraNumberSpan);
+    
+            ticketsContainer.appendChild(ticketContainer);
+          }
+        }
+      </script>
+
+<style>
+    .ticket-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .ticket {
+      display: flex;
+      align-items: center;
+      margin: 10px;
+    }
+
+    .number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      border: 1px solid black;
+      margin-right: 5px;
+    }
+
+    .extra-number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      background-color: yellow;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+
+
+</head>
+
+<body>
+    <h1>Генератор лотерейных билетов</h1>
+
+  <label for="minValue">Минимальное значение:</label>
+  <input type="number" id="minValue" min="1" step="1" value="1">
+
+  <label for="maxValue">Максимальное значение:</label>
+  <input type="number" id="maxValue" min="1" step="1" value="37">
+
+  <label for="countValue">Количество результатов на билете:</label>
+  <input type="number" id="countValue" min="1" step="1" value="6">
+
+  <label for="ticketsCount">Количество билетов:</label>
+  <input type="number" id="ticketsCount" min="1" step="1" value="1">
+
+  <label for="extraMinValue">Минимальное значение для дополнительного числа:</label>
+  <input type="number" id="extraMinValue" min="1" step="1" value="1">
+
+  <label for="extraMaxValue">Максимальное значение для дополнительного числа:</label>
+  <input type="number" id="extraMaxValue" min="1" step="1" value="10">
+
+  <button onclick="generateLotteryTickets()">Сгенерировать билеты</button>
+
+  <h2>Билеты:</h2>
+  <div id="ticketsContainer" class="ticket-container"></div>
+  </body>
+  
+</html>
